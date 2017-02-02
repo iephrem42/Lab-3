@@ -9,7 +9,8 @@ using namespace std;
 
 Password::Password
 {
-	
+	new int ListArray<String*> all_words;// create all_word list 
+	new int ListArray<String*> viable_word;// create viable_word list
 }
 
 
@@ -22,13 +23,7 @@ Password::~Password()
 
 void Password::addWord(String* word)
 {
-	 if (sz == max_tokens)
-   {
-      resize();
-   }
-
-   tokens[sz] = word;
-   sz++;
+	all_word->add(word);
 }
 
 int Password::getNumberOfPasswordsLeft()
@@ -96,3 +91,5 @@ int Password::bestGuess()
    delete all_iter;
    return best_guess_index;  //return a 1-based index into the all_words list of words (careful)
 }
+
+String* getOriginalWord(int index)//get a word from the original list of all passwords
