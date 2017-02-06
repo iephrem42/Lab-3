@@ -1,36 +1,82 @@
 #include "Password.h"
 using CSC2110::ListArrayIterator;
-
+using CSC2110::String;
 #include <iostream>
 using namespace std;
 
 
 
 
-Password::Password
+Password::Password()
 {
-	new int ListArray<String*> all_words;// create all_word list 
-	new int ListArray<String*> viable_word;// create viable_word list
+	all_words = new ListArray<String>();// create all_word list 
+	viable_words = new ListArray<String>();// create viable_word list
 }
 
 
 
 Password::~Password()
 {
-	delete[viable_words->~ListArray()];
+	all_words->~ListArray();
+	delete all_words;
+	
+	viable_words->~ListArray();
+	delete viable_words;
   
 }
 
 void Password::addWord(String* word)
 {
-	all_word->add(word);
+	all_words->add(word);
+	viable_words->add(word);
 }
 
+void Password::guess(int try_password, int num_matches)//index of guessed word in the list of all words
+{
+	
+	String* password = all_words->get(try_password);
+	String* temp;
+	for(int i = 1; i <= all_words->size(); i++)
+	{
+		temp = viable_words->get(i);
+		int matches = getNumMatches(temp, password);
+		if(matches != num_matches)
+		viable_words->remove(i);
+	}
+	
+}
+int Password::getNumMatches(String* curr_word, String* word_guess) // curr_word is the word in the list
+{   
+   int matches = 0;
+
+    for(int i = 0; i < len; i++)
+      {
+         if(word_guess->charAt(i) == curr_word->charAt(i))
+         {
+            matches++;
+            //cout << "Matched\n"; 
+         }
+      }
+   return matches;
+}
+
+// RETURNS THE NUMBER OF POSSIBLE PASSWORDS REMAINING
 int Password::getNumberOfPasswordsLeft()
 {
-   return sz;
+   return viable_words->size();
 }
 
+
+void Password::displayViableWords()
+{
+	int i = 0;
+	int sz = viable_words->size();
+	for(int x = 1; x <=  sz; x++)
+	{
+		viable_words->get(x)->displayString();
+		cout << endl;
+	}
+}
 int Password::bestGuess()
 {
    int best_guess_index = -1;
@@ -43,7 +89,7 @@ int Password::bestGuess()
    while(all_iter->hasNext())
    {
       String* original_word = all_iter->next();
-
+		
       //loop over only those words that could still be the password
       //count up the number of matches between a possible password and a word in the original list
       int* count_num_matches = new int[len + 1];
@@ -57,6 +103,7 @@ int Password::bestGuess()
       while(viable_iter->hasNext())
       {
          String* viable_word = viable_iter->next();
+		 
          int num_matches = getNumMatches(viable_word, original_word);
          count_num_matches[num_matches]++;
       }
@@ -92,4 +139,8 @@ int Password::bestGuess()
    return best_guess_index;  //return a 1-based index into the all_words list of words (careful)
 }
 
-String* getOriginalWord(int index)//get a word from the original list of all passwords
+
+String* Password::getOriginalWord(int index)//get a word from the original list of all passwords
+{
+	all_words->get(index);
+}

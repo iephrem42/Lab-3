@@ -3,7 +3,9 @@
 
 //complete the includes
 #include "ListArray.h"
-#include "ListArrayIterator.h"
+#include "Text.h"
+using CSC2110::ListArray;
+using CSC2110::String;
 
 class Password
 {
@@ -20,7 +22,7 @@ class Password
 	  ~Password(); //destructor
 	  void addWord(String* word);//add a word to the list of possible passwords
 	  void guess(int try_password, int num_matches);//index of guessed word in the list of all words 
-	  int getNumberofPasswordsLeft();// returns the number of passwords remaining
+	  int getNumberOfPasswordsLeft();// returns the number of passwords remaining
 	  void displayViableWords(); //display the current list of possible passwords
 	  int bestGuess();// the best word in the original list to guess next (done for you)
 	  String* getOriginalWord(int index); //get a word from the list of all passwords
